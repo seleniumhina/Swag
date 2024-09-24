@@ -14,11 +14,7 @@ pipeline {
                 git branch: 'master', url: 'https://github.com/seleniumhina/Swag.git'
             }
         }
-        stage('Set Up Maven') {
-            steps {
-                // Set up any required environment variables or configurations
-                sh 'export MAVEN_OPTS="-Xmx1024m"'
-            }
+       
         }
         stage('Build') {
             steps {
