@@ -19,6 +19,11 @@ pipeline {
                 bat "mvn clean compile -DskipTests=true" // Use 'bat' for Windows
             }			
         }
+        stage('TEST') { // Added TEST stage
+            steps {
+                bat "mvn test" // Run the tests
+            }
+        }
     }
     post {
         success {
