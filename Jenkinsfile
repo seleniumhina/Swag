@@ -1,32 +1,42 @@
-pipeline {						
-    agent any						
- 						
-    stages {						
-        stage('Test') {						
-            steps {						
-                // Run Maven with verbose mode to show detailed actions
-                bat "mvn -X -B clean test"  
-                
-                // Show all actions in the console
-                echo 'Running Maven build with verbose logging enabled'
-            }						
- 						
-            post {                						
-                // If Maven was able to run the tests, even if some of the test						
-                // failed, record the test results and archive the jar file.						
-                success {						
-                   echo 'Publishing HTML Report'  // Log action for publishing HTML report
-                   publishHTML([						
-                       allowMissing: false, 						
-                       alwaysLinkToLastBuild: false, 						
-                       keepAll: false, 						
-                       reportDir: 'target/surefire-reports/', 						
-                       reportFiles: 'emailable-report.html', 						
-                       reportName: 'HTML Report', 						
-                       reportTitles: '', 						
-                       useWrapperFileDirectly: true])						
-                }						
-            }						
-        }						
-    }						
+pipeline {
+    agent any  // Runs on any available agent (e.g., Jenkins node)
+    
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building project...'
+                // Example of running a build command
+                sh 'mvn clean install'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+                // Example of running tests
+                sh 'mvn test'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying application...'
+                // Example of a deployment command
+                sh 'scp target/myapp.jar user@server:/path/to/deploy/'
+            }
+        }
+    }
+    
+    post {
+        always {
+            echo 'Cleaning up...'
+            cleanWs() // Cleans the workspace after the pipeline runs
+        }
+        success {
+            echo 'Pipeline completed successfully.'
+        }
+        failure {
+            echo 'Pipeline failed.'
+        }
+    }
 }
