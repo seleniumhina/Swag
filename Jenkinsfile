@@ -1,45 +1,38 @@
 pipeline {
-    agent any
+    agent any    
     tools {
-        maven 'Maven_3.6.3' // Make sure this matches your Jenkins Maven installation name
-        jdk 'JDK_18' // Replace with the Java version you're using
-    }
-    environment {
-        CHROME_DRIVER = 'C:\Webdriver\chromedriver-win64\chromedriver-win64' // Path to the ChromeDriver
+        jdk 'JAVA_HOME' // Use the correct name of the JDK set in Jenkins Global Tool Configuration
+        maven 'apache-maven-3.9.8' // Use the correct name of the Maven installation
     }
     stages {
-        stage('Checkout') {
-            steps {
-                // Pull the latest code from the repository
-                git branch: 'master', url: 'https://github.com/seleniumhina/Swag.git'
-            }
+        stage('Git Checkout') {			
+            steps {			
+                git changelog: false, 
+                    credentialsId: '28b72801-cbc2-44ed-bf9a-5f5f9abb64e6', 
+                    poll: false, 
+                    url: 'https://github.com/seleniumhina/Swag.git'
+            }			
         }
-       
-        }
-        stage('Build') {
+        stage('COMPILE') {			
             steps {
-                // Build the project and run tests using Maven
-                sh 'mvn clean install'
-            }
-        }
-        stage('Execute Tests') {
-            steps {
-                // Execute the test cases, using TestNG or JUnit
-                sh 'mvn test'
-            }
-        }
-        stage('Post Test Actions') {
-            steps {
-                // Generate test reports, logs, or any post-build actions
-                junit '**/target/surefire-reports/*.xml' // Change path if you're using a different framework
-            }
+                // Change 'sh' to 'bat' for Windows environments
+                bat "mvn clean compile -DskipTests=true" // Use 'bat' for Windows
+            }			
         }
     }
     post {
-        always {
-            // Archive the reports and clean up
-            archiveArtifacts artifacts: '**/target/*.jar', allowEmptyArchive: true
-            cleanWs() // Clean the workspace after execution
+        success {
+            // If Maven was able to run the tests, even if some of the tests failed, record the test results and archive the report.
+            publishHTML([				
+                allowMissing: false, 				
+                alwaysLinkToLastBuild: false, 				
+                keepAll: false, 				
+                reportDir: 'target/surefire-reports/', 				
+                reportFiles: 'emailable-report.html', 				
+                reportName: 'HTML Report', 				
+                reportTitles: '', 				
+                useWrapperFileDirectly: true
+            ])
         }
     }
 }
