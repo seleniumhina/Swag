@@ -1,11 +1,22 @@
 pipeline {
-    agent any  // Runs on any available agent (e.g., Jenkins node)
+    agent any
+    
+    environment {
+        GIT_URL = 'https://github.com/seleniumhina/Swag.git'
+        RECIPIENT = 'hinainamdar678@gmail.com'
+    }
     
     stages {
+        stage('Checkout') {
+            steps {
+                echo 'Checking out code...'
+                git branch: 'main', url: "${https://github.com/seleniumhina/Swag}"
+            }
+        }
+
         stage('Build') {
             steps {
                 echo 'Building project...'
-                // Example of running a build command
                 sh 'mvn clean install'
             }
         }
@@ -13,7 +24,6 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Running tests...'
-                // Example of running tests
                 sh 'mvn test'
             }
         }
@@ -21,22 +31,12 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying application...'
-                // Example of a deployment command
                 sh 'scp target/myapp.jar user@server:/path/to/deploy/'
             }
         }
     }
     
     post {
-        always {
-            echo 'Cleaning up...'
-            cleanWs() // Cleans the workspace after the pipeline runs
-        }
         success {
-            echo 'Pipeline completed successfully.'
-        }
-        failure {
-            echo 'Pipeline failed.'
-        }
-    }
-}
+            echo 'Build succeeded!'
+            mail to: "${hinainamdar678@gmail.com
