@@ -4,6 +4,10 @@
   <test thread-count="5" name="Test">
     <classes>
       <class name="swag.qa.testcases.LoginPageTest"/>
+      <class name="swag.qa.testcases.HomepageTest"/>
+       <class name="swag.qa.testcases.addtocartpageTest"/>
+      <class name="swag.qa.testcases.checkoutdetailspageTest"/>
+      <class name="swag.qa.testcases.finaldetailsTest"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->

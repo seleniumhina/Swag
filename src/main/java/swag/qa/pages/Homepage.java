@@ -25,6 +25,14 @@ public class Homepage extends Testbase {
 	@FindBy(xpath="//span[@class='active_option']")
 	WebElement Sortvalue;
 	
+	@FindBy(xpath="(//button[normalize-space()='Open Menu'])[1]")
+	WebElement threeline;
+	
+	@FindBy(xpath="(//a[normalize-space()='About'])[1]")
+	WebElement about;
+	
+	
+	
 	
 	public Homepage()
 	{
@@ -48,5 +56,12 @@ public class Homepage extends Testbase {
 		return new addtocartpage();
 	}
 	
+	public aboutpage verifyabout()
+	{
+		threeline.click();
+		about.click();
+		return new aboutpage();
+		
+	}
 
 }

@@ -3,12 +3,12 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="swag.qa.testcases.finaldetailsTest">
+      <class name="swag.qa.testcases.aboutpageTest">
         <methods>
           <include name="setup"/>
-          <include name="finaldetailsTest"/>
+          <include name="abouteTest"/>
         </methods>
-      </class> <!-- swag.qa.testcases.finaldetailsTest -->
+      </class> <!-- swag.qa.testcases.aboutpageTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

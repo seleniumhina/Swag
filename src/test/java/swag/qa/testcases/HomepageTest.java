@@ -26,7 +26,7 @@ public class HomepageTest extends Testbase{
 		 homepage = loginpage.verifylogin();
 	}
        
-    @Test
+  //  @Test
     
     public void cartTest()
     {
@@ -34,5 +34,11 @@ public class HomepageTest extends Testbase{
     	homepage.verifyaddtocart();
     }
 	
-	
+	@Test
+	public void abouttest()
+	{
+		homepage.verifyabout();
+		
+		
+	}
 }
